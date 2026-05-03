@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Appointment</title>
+    <title>Admin Edit Appointment</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link
@@ -10,13 +10,15 @@
 </head>
 <body class="bg-light">
 <div class="container py-5">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm border-0">
         <div class="card-body p-4">
-            <h1 class="mb-4">Edit Appointment</h1>
+            <h1 class="mb-4">Admin Edit Appointment</h1>
 
             <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-            <form th:action="@{/appointments/update/{id}(id=${appointment.id})}" th:object="${appointment}" method="post">
+            <form th:action="@{/admin/appointments/update/{id}(id=${appointment.id})}"
+                  th:object="${appointment}" method="post">
+
                 <div class="mb-3">
                     <label class="form-label">Full Name</label>
                     <input type="text" th:field="*{fullName}" class="form-control">
@@ -37,7 +39,10 @@
 
                 <div class="mb-3">
                     <label class="form-label">Appointment Date</label>
-                    <input type="date" th:field="*{appointmentDate}" class="form-control" id="appointmentDate">
+                    <input type="date"
+                           name="appointmentDate"
+                           th:value="${#temporals.format(appointment.appointmentDate, 'yyyy-MM-dd')}"
+                           class="form-control">
                     <div class="text-danger" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></div>
                 </div>
 
@@ -53,17 +58,19 @@
                     <div class="text-danger" th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></div>
                 </div>
 
-                <input type="hidden" th:field="*{status}"/>
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select th:field="*{status}" class="form-select">
+                        <option value="Scheduled">Scheduled</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
 
-                <button type="submit" class="btn btn-success">Update Appointment</button>
-                <a href="/appointments" class="btn btn-secondary ms-2">Back</a>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+                <a href="/admin" class="btn btn-secondary ms-2">Back to Dashboard</a>
             </form>
         </div>
     </div>
 </div>
-<script>
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('appointmentDate').setAttribute('min', today);
-</script>
 </body>
 </html>

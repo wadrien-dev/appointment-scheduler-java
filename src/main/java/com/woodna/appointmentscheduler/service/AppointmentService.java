@@ -64,6 +64,7 @@ public class AppointmentService {
 
         existingAppointment.setFullName(updatedAppointment.getFullName());
         existingAppointment.setEmail(updatedAppointment.getEmail());
+        existingAppointment.setPhoneNumber(updatedAppointment.getPhoneNumber());
         existingAppointment.setAppointmentDate(updatedAppointment.getAppointmentDate());
         existingAppointment.setAppointmentTime(updatedAppointment.getAppointmentTime());
         existingAppointment.setReason(updatedAppointment.getReason());
@@ -109,6 +110,18 @@ public class AppointmentService {
 
                     return matchesKeyword && matchesStatus;
                 })
+                .sorted((a1, a2) -> {
+                    int dateCompare = a1.getAppointmentDate().compareTo(a2.getAppointmentDate());
+                    if (dateCompare != 0) {
+                        return dateCompare;
+                    }
+                    return a1.getAppointmentTime().compareTo(a2.getAppointmentTime());
+                })
+                .toList();
+    }
+    public List<Appointment> getAppointmentsByEmailAndPhone(String email, String phoneNumber) {
+        return appointmentRepository.findByEmailAndPhoneNumber(email, phoneNumber)
+                .stream()
                 .sorted((a1, a2) -> {
                     int dateCompare = a1.getAppointmentDate().compareTo(a2.getAppointmentDate());
                     if (dateCompare != 0) {

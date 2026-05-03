@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AppointmentController {
@@ -97,5 +98,44 @@ public class AppointmentController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
         return "appointments";
+    }
+
+    @GetMapping("/my-appointments")
+    public String showMyAppointmentsLookupForm() {
+        return "my-appointments-lookup";
+    }
+
+    @PostMapping("/my-appointments")
+    public String findMyAppointments(@RequestParam String email,
+                                     @RequestParam String phoneNumber,
+                                     Model model) {
+        model.addAttribute("appointments", appointmentService.getAppointmentsByEmailAndPhone(email, phoneNumber));
+        model.addAttribute("email", email);
+        model.addAttribute("phoneNumber", phoneNumber);
+        return "my-appointments";
+    }
+
+    @GetMapping("/admin/appointments/edit/{id}")
+    public String showAdminEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("appointment", appointmentService.getAppointmentById(id));
+        return "admin-edit-appointment";
+    }
+
+    @PostMapping("/admin/appointments/update/{id}")
+    public String updateAppointmentAsAdmin(@PathVariable Long id,
+                                           @Valid @ModelAttribute("appointment") Appointment appointment,
+                                           BindingResult result,
+                                           Model model) {
+        if (result.hasErrors()) {
+            return "admin-edit-appointment";
+        }
+
+        try {
+            appointmentService.updateAppointment(id, appointment);
+            return "redirect:/admin";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            return "admin-edit-appointment";
+        }
     }
 }

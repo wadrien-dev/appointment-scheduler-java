@@ -27,6 +27,10 @@ public class Appointment {
     @Column(nullable = false)
     private String email;
 
+    @NotBlank(message = "Phone number is required.")
+    @Column(nullable = false)
+    private String phoneNumber;
+
     @NotNull(message = "Appointment date is required.")
     @FutureOrPresent(message = "Appointment date cannot be in the past.")
     @DateTimeFormat(pattern = "MM-dd-yyyy")
@@ -98,5 +102,13 @@ public class Appointment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

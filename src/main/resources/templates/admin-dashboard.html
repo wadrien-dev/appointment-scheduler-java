@@ -50,20 +50,27 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Phone</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Reason</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="appointment : ${appointments}">
                     <td th:text="${appointment.fullName}"></td>
                     <td th:text="${appointment.email}"></td>
+                    <td th:text="${appointment.phoneNumber}"></td>
                     <td th:text="${appointment.appointmentDate}"></td>
                     <td th:text="${appointment.appointmentTime}"></td>
                     <td th:text="${appointment.reason}"></td>
                     <td th:text="${appointment.status}"></td>
+                    <td>
+                        <a th:href="@{/admin/appointments/edit/{id}(id=${appointment.id})}"
+                           class="btn btn-sm btn-warning">Edit</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

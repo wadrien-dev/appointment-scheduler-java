@@ -29,6 +29,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" th:field="*{phoneNumber}" class="form-control">
+                    <div class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Appointment Date</label>
                     <input type="date" th:field="*{appointmentDate}" class="form-control" id="appointmentDate">
                     <div class="text-danger" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></div>
@@ -49,6 +55,7 @@
                 <button type="submit" class="btn btn-primary">Schedule Appointment</button>
                 <a href="/appointments" class="btn btn-outline-secondary ms-2">View Appointments</a>
                 <a href="/admin" class="btn btn-outline-dark ms-2">Admin Dashboard</a>
+                <a href="/my-appointments" class="btn btn-outline-info ms-2">Find My Appointments</a>
             </form>
         </div>
     </div>
