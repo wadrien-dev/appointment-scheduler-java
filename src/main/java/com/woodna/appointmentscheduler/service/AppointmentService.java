@@ -17,7 +17,16 @@ public class AppointmentService {
     }
 
     public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
+        return appointmentRepository.findAll()
+                .stream()
+                .sorted((a1, a2) -> {
+                    int dateCompare = a1.getAppointmentDate().compareTo(a2.getAppointmentDate());
+                    if (dateCompare != 0) {
+                        return dateCompare;
+                    }
+                    return a1.getAppointmentTime().compareTo(a2.getAppointmentTime());
+                })
+                .toList();
     }
 
     public Appointment getAppointmentById(Long id) {
@@ -67,5 +76,46 @@ public class AppointmentService {
         Appointment appointment = getAppointmentById(id);
         appointment.setStatus("Cancelled");
         appointmentRepository.save(appointment);
+    }
+
+    public long getTotalAppointments() {
+        return appointmentRepository.count();
+    }
+
+    public long getScheduledAppointmentsCount() {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(a -> "Scheduled".equalsIgnoreCase(a.getStatus()))
+                .count();
+    }
+
+    public long getCancelledAppointmentsCount() {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(a -> "Cancelled".equalsIgnoreCase(a.getStatus()))
+                .count();
+    }
+
+    public List<Appointment> searchAppointments(String keyword, String status) {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(appointment -> {
+                    boolean matchesKeyword = (keyword == null || keyword.isBlank()) ||
+                            appointment.getFullName().toLowerCase().contains(keyword.toLowerCase()) ||
+                            appointment.getEmail().toLowerCase().contains(keyword.toLowerCase());
+
+                    boolean matchesStatus = (status == null || status.isBlank()) ||
+                            appointment.getStatus().equalsIgnoreCase(status);
+
+                    return matchesKeyword && matchesStatus;
+                })
+                .sorted((a1, a2) -> {
+                    int dateCompare = a1.getAppointmentDate().compareTo(a2.getAppointmentDate());
+                    if (dateCompare != 0) {
+                        return dateCompare;
+                    }
+                    return a1.getAppointmentTime().compareTo(a2.getAppointmentTime());
+                })
+                .toList();
     }
 }

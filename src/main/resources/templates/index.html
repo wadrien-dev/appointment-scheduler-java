@@ -30,7 +30,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Appointment Date</label>
-                    <input type="date" th:field="*{appointmentDate}" class="form-control">
+                    <input type="date" th:field="*{appointmentDate}" class="form-control" id="appointmentDate">
                     <div class="text-danger" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></div>
                 </div>
 
@@ -48,9 +48,14 @@
 
                 <button type="submit" class="btn btn-primary">Schedule Appointment</button>
                 <a href="/appointments" class="btn btn-outline-secondary ms-2">View Appointments</a>
+                <a href="/admin" class="btn btn-outline-dark ms-2">Admin Dashboard</a>
             </form>
         </div>
     </div>
 </div>
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('appointmentDate').setAttribute('min', today);
+</script>
 </body>
 </html>

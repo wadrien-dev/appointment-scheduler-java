@@ -13,7 +13,26 @@
     <div class="card shadow-sm">
         <div class="card-body p-4">
             <h1 class="mb-4">Scheduled Appointments</h1>
+            <form th:action="@{/appointments/search}" method="get" class="row g-3 mb-4">
+                <div class="col-md-5">
+                    <input type="text" name="keyword" class="form-control"
+                           placeholder="Search by name or email"
+                           th:value="${keyword}">
+                </div>
 
+                <div class="col-md-3">
+                    <select name="status" class="form-select">
+                        <option value="" th:selected="${status == null or status == ''}">All Statuses</option>
+                        <option value="Scheduled" th:selected="${status == 'Scheduled'}">Scheduled</option>
+                        <option value="Cancelled" th:selected="${status == 'Cancelled'}">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="/appointments" class="btn btn-outline-secondary ms-2">Reset</a>
+                </div>
+            </form>
             <table class="table table-striped align-middle">
                 <thead>
                 <tr>
@@ -35,16 +54,22 @@
                     <td th:text="${appointment.reason}"></td>
                     <td th:text="${appointment.status}"></td>
                     <td>
-                        <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}"
-                           class="btn btn-sm btn-warning me-2">Edit</a>
+                        <div th:if="${appointment.status != 'Cancelled'}">
+                            <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}"
+                               class="btn btn-sm btn-warning me-2">Edit</a>
 
-                        <form th:action="@{/appointments/cancel/{id}(id=${appointment.id})}"
-                              method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Are you sure you want to cancel this appointment?');">
-                                Cancel
-                            </button>
-                        </form>
+                            <form th:action="@{/appointments/cancel/{id}(id=${appointment.id})}"
+                                  method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to cancel this appointment?');">
+                                    Cancel
+                                </button>
+                            </form>
+                        </div>
+
+                        <div th:if="${appointment.status == 'Cancelled'}">
+                            <span class="text-muted">No actions available</span>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

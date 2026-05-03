@@ -23,6 +23,15 @@ public class AppointmentController {
         return "index";
     }
 
+    @GetMapping("/admin")
+    public String adminDashboard(Model model) {
+        model.addAttribute("totalAppointments", appointmentService.getTotalAppointments());
+        model.addAttribute("scheduledAppointments", appointmentService.getScheduledAppointmentsCount());
+        model.addAttribute("cancelledAppointments", appointmentService.getCancelledAppointmentsCount());
+        model.addAttribute("appointments", appointmentService.getAllAppointments());
+        return "admin-dashboard";
+    }
+
     @PostMapping("/schedule")
     public String scheduleAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,
                                       BindingResult result,
@@ -45,6 +54,8 @@ public class AppointmentController {
     @GetMapping("/appointments")
     public String viewAppointments(Model model) {
         model.addAttribute("appointments", appointmentService.getAllAppointments());
+        model.addAttribute("keyword", "");
+        model.addAttribute("status", "");
         return "appointments";
     }
 
@@ -76,5 +87,15 @@ public class AppointmentController {
     public String cancelAppointment(@PathVariable Long id) {
         appointmentService.cancelAppointment(id);
         return "redirect:/appointments";
+    }
+
+    @GetMapping("/appointments/search")
+    public String searchAppointments(@RequestParam(required = false) String keyword,
+                                     @RequestParam(required = false) String status,
+                                     Model model) {
+        model.addAttribute("appointments", appointmentService.searchAppointments(keyword, status));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("status", status);
+        return "appointments";
     }
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.validation.constraints.FutureOrPresent;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,7 +28,8 @@ public class Appointment {
     private String email;
 
     @NotNull(message = "Appointment date is required.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @FutureOrPresent(message = "Appointment date cannot be in the past.")
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     @Column(nullable = false)
     private LocalDate appointmentDate;
 
