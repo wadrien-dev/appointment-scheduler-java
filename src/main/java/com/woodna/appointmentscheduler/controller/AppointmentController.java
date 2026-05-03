@@ -9,9 +9,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 public class AppointmentController {
+
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${app.admin.password}")
+    private String adminPassword;
 
     private final AppointmentService appointmentService;
 
@@ -279,9 +286,6 @@ public class AppointmentController {
                                     @RequestParam String password,
                                     Model model,
                                     HttpSession session) {
-        String adminEmail = "woody_admin1@appointmentscheduler.com";
-        String adminPassword = "Admin123!";
-
         if (email.equalsIgnoreCase(adminEmail) && password.equals(adminPassword)) {
             session.setAttribute("isAdmin", true);
             return "redirect:/admin";
