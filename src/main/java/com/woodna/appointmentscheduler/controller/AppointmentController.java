@@ -20,8 +20,9 @@ public class AppointmentController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, HttpSession session) {
         model.addAttribute("appointment", new Appointment());
+        model.addAttribute("isAdmin", session.getAttribute("isAdmin"));
         return "index";
     }
 
@@ -38,6 +39,7 @@ public class AppointmentController {
         model.addAttribute("scheduledAppointments", appointmentService.getScheduledAppointmentsCount());
         model.addAttribute("cancelledAppointments", appointmentService.getCancelledAppointmentsCount());
         model.addAttribute("appointments", appointmentService.getAllAppointments());
+        model.addAttribute("isAdmin", isAdmin);
         return "admin-dashboard";
     }
 
@@ -61,10 +63,18 @@ public class AppointmentController {
     }
 
     @GetMapping("/appointments")
-    public String viewAppointments(Model model) {
+    public String viewAppointments(Model model, HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required to view all appointments.");
+            return "access-denied";
+        }
+
         model.addAttribute("appointments", appointmentService.getAllAppointments());
         model.addAttribute("keyword", "");
         model.addAttribute("status", "");
+        model.addAttribute("isAdmin", isAdmin);
         return "appointments";
     }
 
@@ -101,10 +111,19 @@ public class AppointmentController {
     @GetMapping("/appointments/search")
     public String searchAppointments(@RequestParam(required = false) String keyword,
                                      @RequestParam(required = false) String status,
-                                     Model model) {
+                                     Model model,
+                                     HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required to search all appointments.");
+            return "access-denied";
+        }
+
         model.addAttribute("appointments", appointmentService.searchAppointments(keyword, status));
         model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
+        model.addAttribute("isAdmin", isAdmin);
         return "appointments";
     }
 
@@ -124,6 +143,7 @@ public class AppointmentController {
         model.addAttribute("appointments", appointmentService.getAppointmentsByEmailAndPhone(email, phoneNumber));
         model.addAttribute("email", email);
         model.addAttribute("phoneNumber", phoneNumber);
+        model.addAttribute("isAdmin", session.getAttribute("isAdmin"));
         return "my-appointments";
     }
 
@@ -229,7 +249,13 @@ public class AppointmentController {
     }
 
     @GetMapping("/admin-login")
-    public String showAdminLoginPage() {
+    public String showAdminLoginPage(HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin != null && isAdmin) {
+            return "redirect:/admin";
+        }
+
         return "admin-login";
     }
 

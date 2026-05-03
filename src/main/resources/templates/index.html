@@ -53,9 +53,17 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Schedule Appointment</button>
-                <a href="/appointments" class="btn btn-outline-secondary ms-2">View Appointments</a>
-                <a href="/admin-login" class="btn btn-outline-dark ms-2">Admin Login</a>
                 <a href="/my-appointments" class="btn btn-outline-info ms-2">Find My Appointments</a>
+
+                <span th:if="${isAdmin != null and isAdmin}">
+                    <a href="/appointments" class="btn btn-outline-secondary ms-2">View All Appointments</a>
+                    <a href="/admin" class="btn btn-outline-dark ms-2">Admin Dashboard</a>
+                    <a href="/admin/logout" class="btn btn-outline-danger ms-2">Admin Logout</a>
+                </span>
+
+                <span th:if="${isAdmin == null or !isAdmin}">
+                    <a href="/admin-login" class="btn btn-outline-dark ms-2">Admin Login</a>
+                </span>
             </form>
         </div>
     </div>
