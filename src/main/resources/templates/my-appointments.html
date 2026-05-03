@@ -43,8 +43,8 @@
                         <td th:text="${appointment.status}"></td>
                         <td>
                             <div th:if="${appointment.status != 'Cancelled'}">
-                                <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}"
-                                   class="btn btn-sm btn-warning me-2">Edit</a>
+                                <form th:action="@{/my-appointments/cancel/{id}(id=${appointment.id})}"
+                                      method="post" style="display:inline;">
 
                                 <form th:action="@{/appointments/cancel/{id}(id=${appointment.id})}"
                                       method="post" style="display:inline;">

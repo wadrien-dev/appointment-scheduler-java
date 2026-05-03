@@ -16,7 +16,7 @@
 
             <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-            <form th:action="@{/appointments/update/{id}(id=${appointment.id})}" th:object="${appointment}" method="post">
+            <form th:action="@{/my-appointments/update/{id}(id=${appointment.id})}" th:object="${appointment}" method="post">
                 <div class="mb-3">
                     <label class="form-label">Full Name</label>
                     <input type="text" th:field="*{fullName}" class="form-control">

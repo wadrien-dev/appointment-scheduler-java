@@ -131,4 +131,9 @@ public class AppointmentService {
                 })
                 .toList();
     }
+    public boolean userOwnsAppointment(Long id, String email, String phoneNumber) {
+        Appointment appointment = getAppointmentById(id);
+        return appointment.getEmail().equalsIgnoreCase(email)
+                && appointment.getPhoneNumber().equals(phoneNumber);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AppointmentController {
@@ -25,7 +26,14 @@ public class AppointmentController {
     }
 
     @GetMapping("/admin")
-    public String adminDashboard(Model model) {
+    public String adminDashboard(Model model, HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required.");
+            return "access-denied";
+        }
+
         model.addAttribute("totalAppointments", appointmentService.getTotalAppointments());
         model.addAttribute("scheduledAppointments", appointmentService.getScheduledAppointmentsCount());
         model.addAttribute("cancelledAppointments", appointmentService.getCancelledAppointmentsCount());
@@ -108,15 +116,88 @@ public class AppointmentController {
     @PostMapping("/my-appointments")
     public String findMyAppointments(@RequestParam String email,
                                      @RequestParam String phoneNumber,
-                                     Model model) {
+                                     Model model,
+                                     HttpSession session) {
+        session.setAttribute("verifiedEmail", email);
+        session.setAttribute("verifiedPhoneNumber", phoneNumber);
+
         model.addAttribute("appointments", appointmentService.getAppointmentsByEmailAndPhone(email, phoneNumber));
         model.addAttribute("email", email);
         model.addAttribute("phoneNumber", phoneNumber);
         return "my-appointments";
     }
 
+    @GetMapping("/my-appointments/edit/{id}")
+    public String showMyAppointmentEditForm(@PathVariable Long id,
+                                            Model model,
+                                            HttpSession session) {
+        String verifiedEmail = (String) session.getAttribute("verifiedEmail");
+        String verifiedPhoneNumber = (String) session.getAttribute("verifiedPhoneNumber");
+
+        if (verifiedEmail == null || verifiedPhoneNumber == null ||
+                !appointmentService.userOwnsAppointment(id, verifiedEmail, verifiedPhoneNumber)) {
+            model.addAttribute("errorMessage", "You are not authorized to edit this appointment.");
+            return "access-denied";
+        }
+
+        model.addAttribute("appointment", appointmentService.getAppointmentById(id));
+        return "edit-appointment";
+    }
+
+    @PostMapping("/my-appointments/update/{id}")
+    public String updateMyAppointment(@PathVariable Long id,
+                                      @Valid @ModelAttribute("appointment") Appointment appointment,
+                                      BindingResult result,
+                                      Model model,
+                                      HttpSession session) {
+        String verifiedEmail = (String) session.getAttribute("verifiedEmail");
+        String verifiedPhoneNumber = (String) session.getAttribute("verifiedPhoneNumber");
+
+        if (verifiedEmail == null || verifiedPhoneNumber == null ||
+                !appointmentService.userOwnsAppointment(id, verifiedEmail, verifiedPhoneNumber)) {
+            model.addAttribute("errorMessage", "You are not authorized to update this appointment.");
+            return "access-denied";
+        }
+
+        if (result.hasErrors()) {
+            return "edit-appointment";
+        }
+
+        try {
+            appointmentService.updateAppointment(id, appointment);
+            return "redirect:/my-appointments";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            return "edit-appointment";
+        }
+    }
+
+    @PostMapping("/my-appointments/cancel/{id}")
+    public String cancelMyAppointment(@PathVariable Long id,
+                                      Model model,
+                                      HttpSession session) {
+        String verifiedEmail = (String) session.getAttribute("verifiedEmail");
+        String verifiedPhoneNumber = (String) session.getAttribute("verifiedPhoneNumber");
+
+        if (verifiedEmail == null || verifiedPhoneNumber == null ||
+                !appointmentService.userOwnsAppointment(id, verifiedEmail, verifiedPhoneNumber)) {
+            model.addAttribute("errorMessage", "You are not authorized to cancel this appointment.");
+            return "access-denied";
+        }
+
+        appointmentService.cancelAppointment(id);
+        return "redirect:/my-appointments";
+    }
+
     @GetMapping("/admin/appointments/edit/{id}")
-    public String showAdminEditForm(@PathVariable Long id, Model model) {
+    public String showAdminEditForm(@PathVariable Long id, Model model, HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required.");
+            return "access-denied";
+        }
+
         model.addAttribute("appointment", appointmentService.getAppointmentById(id));
         return "admin-edit-appointment";
     }
@@ -125,7 +206,15 @@ public class AppointmentController {
     public String updateAppointmentAsAdmin(@PathVariable Long id,
                                            @Valid @ModelAttribute("appointment") Appointment appointment,
                                            BindingResult result,
-                                           Model model) {
+                                           Model model,
+                                           HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required.");
+            return "access-denied";
+        }
+
         if (result.hasErrors()) {
             return "admin-edit-appointment";
         }
@@ -137,5 +226,33 @@ public class AppointmentController {
             model.addAttribute("errorMessage", ex.getMessage());
             return "admin-edit-appointment";
         }
+    }
+
+    @GetMapping("/admin-login")
+    public String showAdminLoginPage() {
+        return "admin-login";
+    }
+
+    @PostMapping("/admin-login")
+    public String processAdminLogin(@RequestParam String email,
+                                    @RequestParam String password,
+                                    Model model,
+                                    HttpSession session) {
+        String adminEmail = "woody_admin1@appointmentscheduler.com";
+        String adminPassword = "Admin123!";
+
+        if (email.equalsIgnoreCase(adminEmail) && password.equals(adminPassword)) {
+            session.setAttribute("isAdmin", true);
+            return "redirect:/admin";
+        }
+
+        model.addAttribute("errorMessage", "Invalid admin credentials.");
+        return "admin-login";
+    }
+
+    @GetMapping("/admin/logout")
+    public String adminLogout(HttpSession session) {
+        session.removeAttribute("isAdmin");
+        return "redirect:/";
     }
 }
