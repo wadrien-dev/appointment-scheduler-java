@@ -248,6 +248,21 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping("/admin/appointments/cancel/{id}")
+    public String cancelAppointmentAsAdmin(@PathVariable Long id,
+                                           Model model,
+                                           HttpSession session) {
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+
+        if (isAdmin == null || !isAdmin) {
+            model.addAttribute("errorMessage", "Admin login is required.");
+            return "access-denied";
+        }
+
+        appointmentService.cancelAppointment(id);
+        return "redirect:/admin";
+    }
+
     @GetMapping("/admin-login")
     public String showAdminLoginPage(HttpSession session) {
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");

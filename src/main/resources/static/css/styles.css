@@ -1,0 +1,131 @@
+body {
+    background: linear-gradient(to bottom right, #f8f9fa, #eef2f7);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+}
+
+.container {
+    max-width: 1100px;
+}
+
+.page-title {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #1f2937;
+}
+
+.page-subtitle {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-dark:hover,
+.btn-outline-danger:hover,
+.btn-outline-info:hover {
+    transform: translateY(-1px);
+    transition: 0.2s ease;
+}
+
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.alert {
+    border-radius: 12px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #d1d5db;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+}
+
+.dashboard-stat {
+    text-align: center;
+    padding: 1rem;
+}
+
+.dashboard-stat h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #111827;
+}
+
+.dashboard-stat h5 {
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.nav-actions {
+    margin-top: 1.5rem;
+}
+
+.brand-badge {
+    display: inline-block;
+    background-color: #e0e7ff;
+    color: #3730a3;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state {
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.text-muted-strong {
+    color: #64748b;
+    font-weight: 500;
+}
