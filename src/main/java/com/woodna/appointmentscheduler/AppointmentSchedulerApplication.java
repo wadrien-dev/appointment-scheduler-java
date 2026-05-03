@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AppointmentschedulerApplication {
+public class AppointmentSchedulerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppointmentschedulerApplication.class, args);
+        SpringApplication.run(AppointmentSchedulerApplication.class, args);
     }
-
 }
