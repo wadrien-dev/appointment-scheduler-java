@@ -8,6 +8,10 @@ This project allows users to schedule and manage appointments through a browser-
 
 The application was developed as part of a multi-phase Software Development Life Cycle project and includes planning, analysis, design, and development documentation.
 
+## Live Demo
+
+[Open the live application](https://appointment-scheduler-java.onrender.com)
+
 ## Features
 
 ### User Features
