@@ -87,8 +87,24 @@ src/main/resources
 
 ## Screenshots
 ### Home Page
+<img width="1146" height="780" alt="Screenshot 2026-05-03 175417" src="https://github.com/user-attachments/assets/a4671f76-4d4c-4af1-80a9-daddf05a29fb" />
+
+<img width="1206" height="818" alt="Screenshot 2026-05-03 175505" src="https://github.com/user-attachments/assets/f2166083-8fd8-4cf2-b98c-874fca832ddc" />
+
 ### Find My Appointments
+<img width="1138" height="630" alt="Screenshot 2026-05-03 182434" src="https://github.com/user-attachments/assets/ab16f4ae-4efb-435c-b9e2-2873177079bc" />
+
 ### Admin Login
+<img width="638" height="593" alt="image" src="https://github.com/user-attachments/assets/a69c71c2-c57b-48f2-8f39-763c02bba66b" />
+
 ### Admin Dashboard
+<img width="975" height="678" alt="image" src="https://github.com/user-attachments/assets/9eea4ed1-d1b9-4f99-b71d-bcc9b85139d1" />
+
 ### All Appointments
+<img width="975" height="627" alt="image" src="https://github.com/user-attachments/assets/e8935c06-bc5e-4abd-859b-f0ea0690dce8" />
+
 ### Edit Appointment
+<img width="975" height="714" alt="image" src="https://github.com/user-attachments/assets/d824ea71-a403-43d2-a75b-7af8254ad7f3" />
+
+<img width="975" height="673" alt="image" src="https://github.com/user-attachments/assets/ae538218-fa91-4a63-9c6f-baa8fb986253" />
+
