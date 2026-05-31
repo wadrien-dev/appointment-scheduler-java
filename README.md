@@ -168,6 +168,8 @@ This project strengthened my experience with:
 - Git and GitHub version control
 - SDLC planning and technical documentation
 - Application deployment
+- Configuring separate local and production database environments
+- Deploying a Spring Boot application with PostgreSQL on Render
 
 ## Future Improvements
 - Integrate Spring Security
