@@ -1,56 +1,88 @@
 # Appointment Scheduler Java App
 
-A full-stack web-based appointment scheduling application built with **Java**, **Spring Boot**, **Thymeleaf**, **MySQL**, **Bootstrap**, **Git**, and **GitHub**.
+A full-stack web application for scheduling, locating, editing, and managing appointment records through a browser-based interface.
 
-## Overview
-
-This project allows users to schedule and manage appointments through a browser-based interface. It also includes an admin dashboard for viewing, editing, searching, filtering, and cancelling appointment records.
-
-The application was developed as part of a multi-phase Software Development Life Cycle project and includes planning, analysis, design, and development documentation.
+Built with **Java 21**, **Spring Boot**, **Spring Data JPA**, **Thymeleaf**, **MySQL**, **Bootstrap 5**, **Maven**.
 
 ## Live Demo
 
 [Open the live application](https://appointment-scheduler-java.onrender.com)
 
+**Note:** The application is hosted on Render. The first load may take a moment if the service has been inactive.
+
+## Overview
+
+The Appointment Scheduler Java App was developed as part of a multi-phase Software Development Life Cycle project.
+
+The application provides user-facing appointment-management tools and an administrative dashboard for reviewing, searching, filtering, editing, and cancelling records. It demonstrates full-stack development, layered architecture, database integration, business-rule validation, and server-rendered user interfaces.
+
 ## Features
 
 ### User Features
 - Schedule a new appointment
-- Find appointments using email and phone number
+- Locate appointments using an email address and phone number
+- View matching appointment records
 - Edit only verified appointments
 - Cancel only verified appointments
 
 ### Admin Features
-- Admin login
-- Admin dashboard with appointment summary cards
-- View all appointments
-- Search and filter appointments
-- Edit any appointment
-- Cancel any appointment
-- Correct user contact information without forcing unnecessary record changes
+- Log in through an administrative portal
+- View dashboard summary cards
+- Review all appointment records
+- Search and filter appointment data
+- Edit any appointment record
+- Cancel any appointment record
+- Correct user contact information without forcing unnecessary changes to other fields
+
 
 ## Tech Stack
 
+### Backend
 - Java 21
 - Spring Boot
 - Spring Data JPA
 - Thymeleaf
-- MySQL
-- Bootstrap 5
 - Maven
-- Git / GitHub
+
+### Frontend
+- Thymeleaf
+- HTML
+- CSS
+- Bootstrap 5
+
+### Databases
+- MySQL for local development
+- PostgreSQL for the deployed Render environment
+
+### Deployment
+- Render
+- PostgreSQL production database hosted for the live application
+
+### Development Tools
+- Git
+- GitHub
 - IntelliJ IDEA
 - draw.io
 
 ## Architecture
 
-The application uses a layered architecture:
+The application uses a layered architecture that separates request handling, business logic, data access, and presentation.
 
-- **Controller layer** for request handling
-- **Service layer** for business logic
-- **Repository layer** for database access
-- **MySQL database** for appointment storage
-- **Thymeleaf templates** for server-rendered UI
+Browser
+    ↓
+Controller Layer
+    ↓
+Service Layer
+    ↓
+Repository Layer
+    ↓
+Database
+
+- **Controller layer:** Handles browser requests and routes users to the appropriate views.
+- **Service layer:** Contains business logic and appointment-management rules.
+- **Repository layer:** Communicates with the MySQL database through Spring Data JPA.
+- **Database layer:** Uses MySQL for local development and PostgreSQL for the deployed Render environment.
+- **Presentation layer:** Uses Thymeleaf templates and Bootstrap styling to render the user interface.
 
 ## Project Structure
 
@@ -67,7 +99,7 @@ src/main/resources
     application.properties
 ```
 ### Key Screens
-- Home / Schedule Appointment
+- Home / Schedule Appointment Form
 - Find My Appointments
 - Admin Login
 - Admin Dashboard
@@ -75,15 +107,6 @@ src/main/resources
 - Edit Appointment
 - Admin Edit Appointment
 - Access Denied
-
-## Future Improvements
-- Spring Security integration
-- role-based authentication from a database 
-- email notifications
-- calendar integration
-- deployment with persistent production database
-- audit logging
-- pagination and stronger admin analytics
 
 ## Screenshots
 ### Home Page
@@ -108,3 +131,57 @@ src/main/resources
 
 <img width="975" height="673" alt="image" src="https://github.com/user-attachments/assets/ae538218-fa91-4a63-9c6f-baa8fb986253" />
 
+## Run the Project Locally
+
+### Prerequisites
+Install the following before running the project:
+- Java 21
+- Maven
+- MySQL
+- Git
+
+### Installation
+1. Clone the repository:
+   git clone https://github.com/wadrien-dev/appointment-scheduler-java.git
+3. Open the project folder:
+   cd appointment-scheduler-java
+4. Create a MySQL database for the application.
+5. Update the database configuration in:
+   src/main/resources/application.properties
+6. Run the application:
+   mvn spring-boot:run
+7. Open the application in your browser:
+   http://localhost:8080
+
+## What This Project Demonstrates
+
+This project strengthened my experience with:
+- Java backend development
+- Spring Boot application structure
+- Database-driven web applications
+- Spring Data JPA repositories
+- Layered architecture
+- Business-rule validation
+- Search and filtering functionality
+- Server-rendered interfaces with Thymeleaf
+- Responsive styling with Bootstrap
+- Git and GitHub version control
+- SDLC planning and technical documentation
+- Application deployment
+
+## Future Improvements
+- Integrate Spring Security
+- Store role-based authentication details in the database
+- Add email notifications
+- Add calendar integration
+- Implement audit logging
+- Add pagination
+- Expand administrative analytics
+- Add automated unit and integration tests
+- Strengthen validation and exception handling
+- Configure a persistent production database
+
+## Author
+
+### Woodna Adrien
+Computer Science Graduate | Junior Software Developer | Application Support | QA Testing
